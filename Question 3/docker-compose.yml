@@ -1,0 +1,8 @@
+services:
+  mssql:
+    image: nectari.repository.io/datasources/mssql:2019-latest
+    container_name: q3-mssql
+    environment:
+      SA_PASSWORD: "SuperStrong@Passw0rd"
+    ports:
+      - "1433:1433"
