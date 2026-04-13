@@ -1,0 +1,7 @@
+AlbumId AlbumTitle                                                PhotoCount
+------- ----------                                                ----------
+    100 enim repellat iste                                                50
+     99 consectetur ut id impedit dolores sit ad ex aut                   50
+     98 omnis quia possimus nesciunt deleniti assumenda sed autem         50
+     97 est quod aut                                                      50
+     96 unde et ut molestiae est molestias voluptatem sint                50
