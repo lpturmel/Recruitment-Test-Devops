@@ -1,19 +1,43 @@
----
-name: Create and Publish
+# NOTE: To secure secrets in a real pipeline, I would create a 
+# pipeline scoped variable marked as a secret and like in the example below,
+# use it in the build arguments.
+#
+# If the secret needs to be used in multiple places, I would create an Azure Key Vault
+# and store it as a variable group that this pipeline could consume.
+#
+# The reason for not using buildAndPush is to be able to pass the build argument.
+trigger: none
 
-on:
-  workflow_dispatch:
+variables:
+  dockerRegistryServiceConnection: ghcr-sc
+  imageRepository: lpturmel/datasources/mssql
+  dockerfilePath: $(Build.SourcesDirectory)/Question 3/Dockerfile
+  imageTag: 2019-latest
 
-jobs:
-  build-and-push-image:
-    runs-on: ubuntu-latest
+pool:
+  vmImage: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: ##To fill##
+steps:
+  - checkout: self
 
-      - name: Log in to the Container registry
-        uses: ##To fill##
+  - task: Docker@2
+    displayName: Build image
+    inputs:
+      command: build
+      containerRegistry: $(dockerRegistryServiceConnection)
+      repository: $(imageRepository)
+      dockerfile: $(dockerfilePath)
+      buildContext: $(Build.SourcesDirectory)/Question 3
+      arguments: >-
+        --build-arg SA_PASSWORD=$(SA_PASSWORD)
+      tags: |
+        $(imageTag)
 
-      - name: Build and push Docker image
-        uses: ##To fill##
+  - task: Docker@2
+    displayName: Push image
+    inputs:
+      command: push
+      containerRegistry: $(dockerRegistryServiceConnection)
+      repository: $(imageRepository)
+      tags: |
+        $(imageTag)
